@@ -1,0 +1,24 @@
+<div>
+    Room Code is: {{roomVm.user.roomId}}
+</div>
+<div>
+    Your user name is: {{roomVm.user.userName}}
+</div>
+
+<div>
+    <div>People in the room: ({{roomVm.participants.length}})</div>
+    <div ng-repeat="people in roomVm.participants">
+        {{people.userName}}
+    </div>
+</div>
+
+<div>
+    <div ng-if="roomVm.hasEnoughPlayers">
+        Waiting for the game leader to start game
+    </div>
+    <div ng-if="!roomVm.hasEnoughPlayers">
+        You need at least 5 players to start the game.
+    </div>
+</div>
+
+<a href="/" ng-click="roomVm.leaveRoom()">Back</a>
