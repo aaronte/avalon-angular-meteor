@@ -1,5 +1,5 @@
 <div>
-    Room Code is: {{roomVm.user.roomId}}
+    Room Code is: {{roomVm.getCode.code}}
 </div>
 <div>
     Your user name is: {{roomVm.user.userName}}
@@ -11,14 +11,30 @@
         {{people.userName}}
     </div>
 </div>
-
 <div>
-    <div ng-if="roomVm.hasEnoughPlayers">
-        Waiting for the game leader to start game
+    <div ng-if="roomVm.isGameStart()"></div>
+    <div ng-if="roomVm.isMaster() == true">
+        <div ng-if="roomVm.hasEnoughPlayers">
+            <md-button class="md-raised md-primary" ng-click="roomVm.gameStarting()">
+                Start Game
+            </md-button>
+        </div>
+        <div ng-if="!roomVm.hasEnoughPlayers">
+            You need at least 5 players to start the game.
+        </div>
     </div>
-    <div ng-if="!roomVm.hasEnoughPlayers">
-        You need at least 5 players to start the game.
+    <div ng-if="roomVm.isMaster() == false">
+        <div ng-if="roomVm.hasEnoughPlayers">
+            Waiting for the game leader to start game
+        </div>
+        <div ng-if="!roomVm.hasEnoughPlayers">
+            You need at least 5 players to start the game.
+        </div>
     </div>
 </div>
 
-<a href="/" ng-click="roomVm.leaveRoom()">Back</a>
+<md-button class="md-raised" href="/" ng-click="roomVm.leaveRoom()">
+    Back
+</md-button>
+<!--
+<a href="/" ng-click="roomVm.leaveRoom()">Back</a>-->
