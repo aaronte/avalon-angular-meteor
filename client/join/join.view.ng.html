@@ -1,18 +1,29 @@
-<form ng-submit="joinVm.joinRoom()">
-    <h4 style="margin: 0;">Joining a game...</h4>
-    <md-input-container>
-        <label>What's the room code?</label>
-        <input type="text" ng-model="joinVm.form.roomCode" autofocus/>
-    </md-input-container>
+<div layout="column">
+    <div flex>
+        <md-content>
+            <form ng-submit="joinVm.joinRoom()">
+                <h4 style="margin: 0;">Joining a game...</h4>
+                <md-input-container>
+                    <label>What's the room code?</label>
+                    <input type="text" ng-model="joinVm.form.roomCode" autofocus/>
+                </md-input-container>
 
-    <md-input-container>
-        <label>What's your name?</label>
-        <input type="text" ng-model="joinVm.form.userName" />
-    </md-input-container>
 
-    <md-button class="md-raised md-primary" ng-click="joinVm.joinRoom()">
-        Join
-    </md-button>
-</form>
+                <md-input-container>
+                    <label>What's your name?</label>
+                    <input type="text" ng-model="joinVm.form.userName" />
+                </md-input-container>
 
-<a href="/">Back</a>
+                <md-button class="md-raised md-primary" ng-click="joinVm.joinRoom()">
+                    Join
+                </md-button>
+            </form>
+
+
+
+            <md-button href="/" class="md-raised">
+                Back
+            </md-button>
+        </md-content>
+    </div>
+</div>
