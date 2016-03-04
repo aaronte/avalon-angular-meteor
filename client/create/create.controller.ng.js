@@ -8,6 +8,7 @@ CreateController.$inject = ['$reactive', '$scope', '$state', 'userService'];
 
 function CreateController($reactive, $scope, $state, userService) {
     $reactive(this).attach($scope);
+
     var vm = this;
     var roomCodeLength = 6;
 
@@ -37,11 +38,13 @@ function CreateController($reactive, $scope, $state, userService) {
 
             console.log('Room: ' + code + ' was created');
 
-            var roomId = Rooms.insert({code: code});
+            var roomId = Rooms.insert({code: code, gameStarted: false});
             var currentUser = {userName: vm.user.name, roomId: roomId, master: true};
             currentUser._id = Users.insert(currentUser);
 
             userService.setModel(currentUser);
+            Session.set('userId',currentUser._id);
+
 
             $state.go('room');
         }
