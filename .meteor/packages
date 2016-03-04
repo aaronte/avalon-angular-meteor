@@ -19,6 +19,7 @@ angularui:angular-ui-router
 fourseven:scss
 angular:angular-material
 mquandalle:bower
-tmeasday:publish-counts
 angularutils:pagination
 erasaur:meteor-lodash
+autopublish
+insecure

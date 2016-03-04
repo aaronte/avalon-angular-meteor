@@ -1,4 +1,5 @@
-'use strict'
+/*
+'use strict';
 
 Meteor.publish('things', function (options, searchString) {
     var where = {
@@ -10,3 +11,4 @@ Meteor.publish('things', function (options, searchString) {
     Counts.publish(this, 'numberOfThings', Things.find(where), {noReady: true});
     return Things.find(where, options);
 });
+*/

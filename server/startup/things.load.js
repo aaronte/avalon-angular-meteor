@@ -1,3 +1,4 @@
+/*
 Meteor.startup(function () {
     if (Things.find().count() === 0) {
         var things = [
@@ -17,4 +18,4 @@ Meteor.startup(function () {
             });
         });
     }
-});
+});*/
