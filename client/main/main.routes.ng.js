@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 angular
@@ -29,4 +30,4 @@ function Config($stateProvider) {
             controller: 'RoomController',
             controllerAs: 'roomVm'
         });
-}
+}*/
