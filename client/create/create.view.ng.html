@@ -1,19 +1,60 @@
-<div layout="column">
-    <div flex>
+<div layout="row">
+    <span flex>
         <md-content layout-gt-sm="column" layout-padding>
-            <form ng-submit="createVm.createGame()">
-                <h4 style="margin: 0;">Creating a game...</h4>
-                <md-input-container>
-                    <label>What's your name?</label>
-                    <input ng-model="createVm.user.name" autofocus>
-                    <md-button class="md-raised md-primary" ng-click="createVm.createGame()">
-                        Create
-                    </md-button>
-                </md-input-container>
-            </form>
+            <h4 style="margin: 0;">Creating a game...</h4>
         </md-content>
-        <md-button href="/" class="md-raised">
-            Back
-        </md-button>
+    </span>
+    <div layout="column">
+
+        <div layout="column" id="centreBox">
+            <div id="formContainer">
+                <md-content layout-gt-sm="column" layout-padding>
+                    <form ng-submit="createVm.createGame()">
+                        <md-input-container>
+                            <label>What's your name?</label>
+                            <input ng-model="createVm.user.name" autocomplete="off" onfocus="displayHelpTxt()" onblur="hideHelpTxt()" autofocus>
+                            <div id="tbox">
+                                <p id="text"></p>
+                            </div>
+
+                        </md-input-container>
+                    </form>
+                </md-content>
+            </div>
+
+            <md-button class="md-raised md-primary" ng-click="createVm.createGame()" id="createBtn">
+                Create
+            </md-button>
+            <md-button href="/" class="md-raised" id="backBtn">
+                Back
+            </md-button>
+        </div>
     </div>
+    <span flex>
+        <div >
+            <div>
+
+            </div>
+        </div>
+    </span>
 </div>
+
+<script>
+
+    function displayHelpTxt() {
+        var txtBox = document.getElementById("text");
+        txtBox.innerHTML = "Create a room and invite your friends to join you in a game of Avalon!!";
+        txtBox.style.opacity = "1";
+        setTimeout( function() { txtBox.style.setProperty("-webkit-transition", "opacity 0.3s ease"); }, 500);
+        //
+
+    }
+    function hideHelpTxt() {
+        var txtBox = document.getElementById("text");
+        txtBox.style.opacity = "0";
+        setTimeout( function() { txtBox.style.setProperty("-webkit-transition", "opacity 3s ease"); }, 500);
+    }
+
+
+
+</script>
