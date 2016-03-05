@@ -4,21 +4,28 @@ angular
     .module('avalonMeteorApp')
     .controller('JoinController', JoinController);
 
-JoinController.$inject = ['$reactive', '$scope', '$state','userService'];
+JoinController.$inject = ['$mdToast', '$reactive', '$scope', '$state', 'userService', '_'];
 
-function JoinController($reactive, $scope, $state, userService) {
+function JoinController($mdToast, $reactive, $scope, $state, userService, _) {
     $reactive(this).attach($scope);
     var vm = this;
 
     vm.form = {roomCode: '', userName: ''};
+    vm.error = '';
 
     vm.joinRoom = joinRoom;
 
     function joinRoom() {
-        var existingRoom = Rooms.find({code:  vm.getReactively('form.roomCode')}).fetch();
+        if (!vm.form.roomCode) {
+            return showToast('You need to enter a room code!');
+        }
 
+        if (!vm.form.userName) {
+            return showToast('You need to enter a user name!');
+        }
 
-        if (existingRoom) {
+        var existingRoom = Rooms.find({code: vm.getReactively('form.roomCode')}).fetch();
+        if (!_.isEmpty(existingRoom)) {
             console.log('Joining ', vm.form.roomCode, ' as ', vm.form.userName);
 
             var currentUser = {
@@ -35,10 +42,15 @@ function JoinController($reactive, $scope, $state, userService) {
             vm.form = {roomCode: '', userName: ''};
             return;
         }
-        else {
-            console.log('Room ', vm.form.roomCode, ' does not exist.');
-        }
 
-        console.log('Cant find room.');
+        showToast('Cannot Find Room!');
+    }
+
+    function showToast(message) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent(message)
+                .hideDelay(3000)
+        );
     }
 }

@@ -4,9 +4,9 @@ angular
     .module('avalonMeteorApp')
     .controller('CreateController', CreateController);
 
-CreateController.$inject = ['$reactive', '$scope', '$state', 'userService'];
+CreateController.$inject = ['$mdToast', '$reactive', '$scope', '$state', 'userService', '_'];
 
-function CreateController($reactive, $scope, $state, userService) {
+function CreateController($mdToast, $reactive, $scope, $state, userService, _) {
     $reactive(this).attach($scope);
 
     var vm = this;
@@ -29,9 +29,9 @@ function CreateController($reactive, $scope, $state, userService) {
                 for (var i = 0; i < roomCodeLength; i++) {
                     code += Math.floor((Math.random() * 10)).toString();
                 }
-                var roomExists = Rooms.findOne({code: code});
+                var roomExists = Rooms.find({code: code}).fetch();
 
-                if (roomExists) {
+                if (!_.isEmpty(roomExists)) {
                     code = '';
                 }
             }
@@ -45,8 +45,14 @@ function CreateController($reactive, $scope, $state, userService) {
             userService.setModel(currentUser);
             Session.set('userId',currentUser._id);
 
-
             $state.go('room');
+            return;
         }
+
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent('You need to enter your name!')
+                .hideDelay(3000)
+        );
     }
 }

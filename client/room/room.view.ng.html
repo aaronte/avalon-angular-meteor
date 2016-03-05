@@ -23,7 +23,7 @@
             You need at least 5 players to start the game.
         </div>
     </div>
-    <div ng-if="roomVm.isMaster() == false">
+    <div ng-if="!roomVm.isMaster()">
         <div ng-if="roomVm.hasEnoughPlayers">
             Waiting for the game leader to start game
         </div>

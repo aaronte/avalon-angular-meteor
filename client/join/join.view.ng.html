@@ -8,7 +8,6 @@
                     <input type="text" ng-model="joinVm.form.roomCode" autofocus/>
                 </md-input-container>
 
-
                 <md-input-container>
                     <label>What's your name?</label>
                     <input type="text" ng-model="joinVm.form.userName" />
@@ -18,9 +17,7 @@
                     Join
                 </md-button>
             </form>
-
-
-
+            <div ng-bind="joinVm.error"></div>
             <md-button href="/" class="md-raised">
                 Back
             </md-button>

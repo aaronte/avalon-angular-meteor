@@ -10,15 +10,11 @@ function RoomController($reactive, $scope, userService, $state) {
     $reactive(this).attach($scope);
     var vm = this;
 
-
     vm.user = userService.getModel();
-    vm.leaveRoom = leaveRoom;
     vm.gameStart = false;
+
+    vm.leaveRoom = leaveRoom;
     vm.isMaster = isMaster;
-
-
-
-
     vm.gameStarting = gameStarting;
 
 
@@ -37,19 +33,18 @@ function RoomController($reactive, $scope, userService, $state) {
         nextMaster: function () {
             var participantsInRoom = Users.find({roomId: vm.user.roomId}).fetch();
             var userId = Session.get('userId');
-            if (userId == participantsInRoom[0]._id){
+            if (userId == participantsInRoom[0]._id) {
                 vm.user.master = true;
-                Users.update({_id:Session.get('userId')},{$set:{'master':true}});
+                Users.update({_id: Session.get('userId')}, {$set: {'master': true}});
             }
         },
         isGameStarted: function () {
-            var inGame = Rooms.find({_id:vm.user.roomId}).fetch();
-            if(inGame[0].gameStarted){
+            var inGame = Rooms.find({_id: vm.user.roomId}).fetch();
+            if (inGame[0].gameStarted) {
                 $state.go('game');
             }
             return inGame[0].gameStarted;
         }
-
     });
 
 
@@ -63,7 +58,7 @@ function RoomController($reactive, $scope, userService, $state) {
     }
 
     function gameStarting() {
-        Rooms.update({_id:vm.user.roomId},{$set:{'gameStarted':true}});
+        Rooms.update({_id: vm.user.roomId}, {$set: {'gameStarted': true}});
     }
 
 }
