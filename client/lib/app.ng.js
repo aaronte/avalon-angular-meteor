@@ -5,7 +5,12 @@ angular
     'ngMaterial',
     'angularUtils.directives.dirPagination'
     ])
-    .constant('_', lodash);
+    .constant('_', lodash)
+    .config(function($mdIconProvider) {
+        $mdIconProvider
+            .iconSet('action', 'action.svg', 24)
+            .icon('key', 'key.svg');
+    });
 
 onReady = function () {
     angular.bootstrap(document, ['avalonMeteorApp']);
