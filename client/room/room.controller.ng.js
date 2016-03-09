@@ -4,9 +4,9 @@ angular
     .module('avalonMeteorApp')
     .controller('RoomController', RoomController);
 
-RoomController.$inject = ['$reactive', '$scope', 'userService', '$state'];
+RoomController.$inject = ['$reactive', '$scope', 'userService', '$state', '$mdDialog', '$mdMedia'];
 
-function RoomController($reactive, $scope, userService, $state) {
+function RoomController($reactive, $scope, userService, $state, $mdDialog, $mdMedia) {
     $reactive(this).attach($scope);
     var vm = this;
 
@@ -16,6 +16,7 @@ function RoomController($reactive, $scope, userService, $state) {
     vm.leaveRoom = leaveRoom;
     vm.isMaster = isMaster;
     vm.gameStarting = gameStarting;
+    vm.participantIsMaster = participantIsMaster;
 
 
     vm.helpers({
@@ -24,7 +25,7 @@ function RoomController($reactive, $scope, userService, $state) {
 
         },
         hasEnoughPlayers: function () {
-            var numberOfRequiredPlayers = 3;
+            var numberOfRequiredPlayers = 2;
             return numberOfRequiredPlayers <= Users.find({roomId: vm.user.roomId}).fetch().length;
         },
         getCode: function () {
@@ -53,12 +54,34 @@ function RoomController($reactive, $scope, userService, $state) {
 
     }
 
+    function participantIsMaster(participantId) {
+        return Users.find({_id: participantId}).fetch()[0].master;
+    }
+
     function leaveRoom() {
         Users.remove({_id: vm.user._id});
     }
 
     function gameStarting() {
         Rooms.update({_id: vm.user.roomId}, {$set: {'gameStarted': true}});
+    }
+
+
+    vm.customFullscreen = $mdMedia('sm');
+    vm.showSettingsDialog = function (ev) {
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: 'client/room/settingsDialog.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+            //fullscreen: $mdMedia('sm' && vm.customFullscreen)
+        });
+    };
+    function DialogController($scope, $mdDialog) {
+        $scope.closeDialog = function() {
+            $mdDialog.hide();
+        }
     }
 
 }

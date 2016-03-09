@@ -1,0 +1,94 @@
+#topBarDisplay{
+    display:-webkit-box;
+    /*border: 1px solid red;*/
+}
+
+#settingsDisplay {
+    width: 52px;
+    /*border: 1px solid black*/
+    height: 42px;
+    line-height: 42px;
+    padding: 10px;
+
+}
+#roomCodeDisplay {
+    -webkit-box-flex: 1;
+    /*border: 1px solid green;*/
+    height: 42px;
+    line-height: 42px;
+    padding: 10px;
+    font-size: 30px;
+}
+#userNameDisplay {
+    text-align: center;
+    margin: 20px;
+    /*border: 1px solid red;*/
+    padding:20px;
+    font-size: 20px;
+
+}
+
+#participantsBlock{
+    text-align: center;
+    /*border: 1px solid red;*/
+    margin: 20px;
+}
+#participantsDisplay {
+    /*border: 1px solid blue;*/
+    padding-top:20px;
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+
+#peopleDisplay {
+    /*border: 1px solid green;*/
+    font-size: 20px;
+}
+
+#textDisplay {
+    border-top: 10px solid lightblue;
+    border-bottom: 10px solid lightblue;
+    text-align:center;
+    font-size: 20px;
+}
+
+#roomBackBtn {
+    margin: auto;
+    padding: 20px;
+}
+
+#peopleDisplay li {
+    list-style-type: circle;
+    color:lightblue;
+
+}
+
+#peopleDisplay p {
+    color:black;
+}
+
+#imgContainer {
+    margin: auto;
+}
+
+#userAvatar {
+    height: 200px;
+    width: 200px;
+    border: 5px solid lightblue;
+    padding:5px;
+
+}
+
+#startGameBtn {
+    width: 200px;
+    height: 70px;
+    padding: 10px;
+}
+
+#textDisplay1 {
+    padding: 30px;
+}
+
+#textDisplay2 {
+    padding: 30px;
+}
