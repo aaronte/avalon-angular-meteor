@@ -13,8 +13,8 @@
                         <md-input-container>
                             <label>What's your name?</label>
                             <input ng-model="createVm.user.name" autocomplete="off" onfocus="displayHelpTxt()" onblur="hideHelpTxt()" autofocus>
-                            <div id="tbox">
-                                <p id="text"></p>
+                            <div id="createHelpBox">
+                                <p id="helpText"></p>
                             </div>
 
                         </md-input-container>
@@ -25,7 +25,7 @@
             <md-button class="md-raised md-primary" ng-click="createVm.createGame()" id="createBtn">
                 Create
             </md-button>
-            <md-button href="/" class="md-raised" id="backBtn">
+            <md-button href="/" class="md-raised" id="createBackBtn">
                 Back
             </md-button>
         </div>
@@ -40,21 +40,15 @@
 </div>
 
 <script>
-
     function displayHelpTxt() {
-        var txtBox = document.getElementById("text");
+        var txtBox = document.getElementById("helpText");
         txtBox.innerHTML = "Create a room and invite your friends to join you in a game of Avalon!!";
         txtBox.style.opacity = "1";
         setTimeout( function() { txtBox.style.setProperty("-webkit-transition", "opacity 0.3s ease"); }, 500);
-        //
-
     }
     function hideHelpTxt() {
-        var txtBox = document.getElementById("text");
+        var txtBox = document.getElementById("helpText");
         txtBox.style.opacity = "0";
         setTimeout( function() { txtBox.style.setProperty("-webkit-transition", "opacity 3s ease"); }, 500);
     }
-
-
-
 </script>
