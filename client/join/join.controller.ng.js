@@ -25,14 +25,39 @@ function JoinController($mdToast, $reactive, $scope, $state, userService, _) {
         }
 
         var existingRoom = Rooms.find({code: vm.getReactively('form.roomCode')}).fetch();
+        var numParticipants = Users.find({roomId: existingRoom[0]._id}).fetch().length;
+        var isMaxPlayers = numParticipants == 10;
+
+        if (isMaxPlayers) {
+            return showToast('The room is full!');
+        }
+
         if (!_.isEmpty(existingRoom)) {
             console.log('Joining ', vm.form.roomCode, ' as ', vm.form.userName);
+            var avatarsRm = existingRoom[0].availAvatars;
+            var numOfAvatars = avatarsRm.length;
+
+            var avatarNumber = Math.floor((Math.random() * numOfAvatars ));
+            var avatarImg = avatarsRm[avatarNumber].toString() + '.png';
+            var availAvatars = [];
+            for (var j = 0; j < numOfAvatars; j++) {
+                if (j == avatarNumber) {
+
+                }
+                else {
+                    availAvatars.push(avatarsRm[j])
+                }
+            }
+
+            Rooms.update({_id: existingRoom[0]._id},{$set:{availAvatars: availAvatars}});
 
             var currentUser = {
                 userName: vm.form.userName,
                 roomId: existingRoom[0]._id,
-                master: false
+                master: false,
+                avatar: avatarImg
             };
+
             currentUser._id = Users.insert(currentUser);
 
             userService.setModel(currentUser);

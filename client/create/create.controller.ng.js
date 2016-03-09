@@ -38,8 +38,22 @@ function CreateController($mdToast, $reactive, $scope, $state, userService, _) {
 
             console.log('Room: ' + code + ' was created');
 
-            var roomId = Rooms.insert({code: code, gameStarted: false});
-            var currentUser = {userName: vm.user.name, roomId: roomId, master: true};
+            var avatarsDB = Avatars.find().fetch()[0].avatarArray;
+            var numOfAvatars = avatarsDB.length;
+
+            var avatarNumber = Math.floor((Math.random() * numOfAvatars ));
+            var avatarImg = avatarsDB[avatarNumber].toString() + '.png';
+            var availAvatars = [];
+            for (var j = 0; j < numOfAvatars; j++) {
+                if (j == avatarNumber) {
+                }
+                else {
+                    availAvatars.push(avatarsDB[j])
+                }
+            }
+
+            var roomId = Rooms.insert({code: code, gameStarted: false, availAvatars: availAvatars});
+            var currentUser = {userName: vm.user.name, roomId: roomId, master: true, avatar: avatarImg};
             currentUser._id = Users.insert(currentUser);
 
             userService.setModel(currentUser);
