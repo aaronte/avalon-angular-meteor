@@ -1,15 +1,39 @@
 <md-dialog aria-label="List dialog">
       <md-dialog-content>
-            <md-list>
-                  <md-list-item>
-                      <p>This does nothing </p>
-
-                  </md-list-item>
-            </md-list>
+          <div layout="column">
+              <div id="checkMerlin">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Merlin" aria-label="Merlin">
+                      Merlin
+                  </md-checkbox>
+              </div>
+              <div id="checkPercival">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Percival" aria-label="Percival">
+                      Percival
+                  </md-checkbox>
+              </div>
+              <div id="checkAssassin">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Assassin" aria-label="Assassin">
+                      Assassin
+                  </md-checkbox>
+              </div>
+              <div id="checkMorgana">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Morgana" aria-label="Morgana">
+                      Morgana
+                  </md-checkbox>
+              </div>
+              <div id="checkMordred">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Mordred" aria-label="Mordred">
+                      Mordred
+                  </md-checkbox>
+              </div>
+          </div>
       </md-dialog-content>
       <md-dialog-actions>
-           <md-button ng-click="closeDialog()" class="md-primary">
-                 Close Dialog
+          <md-button ng-click="dialogVm.save(dialogVm.selectedRoles)" class="md-primary">
+              Apply
+          </md-button>
+           <md-button ng-click="dialogVm.closeDialog()" class="md-primary">
+                 Cancel
                 </md-button>
         </md-dialog-actions>
 </md-dialog>

@@ -4,9 +4,9 @@ angular
     .module('avalonMeteorApp')
     .controller('RoomController', RoomController);
 
-RoomController.$inject = ['$reactive', '$scope', 'userService', '$state', '$mdDialog', '$mdMedia'];
+RoomController.$inject = ['$reactive', '$scope', 'userService', '$state', '$mdDialog'];
 
-function RoomController($reactive, $scope, userService, $state, $mdDialog, $mdMedia) {
+function RoomController($reactive, $scope, userService, $state, $mdDialog) {
     $reactive(this).attach($scope);
     var vm = this;
 
@@ -44,7 +44,6 @@ function RoomController($reactive, $scope, userService, $state, $mdDialog, $mdMe
             if (inGame[0].gameStarted) {
                 $state.go('game');
             }
-            return inGame[0].gameStarted;
         }
     });
 
@@ -66,22 +65,33 @@ function RoomController($reactive, $scope, userService, $state, $mdDialog, $mdMe
         Rooms.update({_id: vm.user.roomId}, {$set: {'gameStarted': true}});
     }
 
-
-    vm.customFullscreen = $mdMedia('sm');
+    vm.savedRoles = {};
     vm.showSettingsDialog = function (ev) {
         $mdDialog.show({
             controller: DialogController,
+            controllerAs: 'dialogVm',
             templateUrl: 'client/room/settingsDialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
-            clickOutsideToClose: true
-            //fullscreen: $mdMedia('sm' && vm.customFullscreen)
+            clickOutsideToClose: true,
+            locals: {
+                savedRoles : vm.savedRoles
+            }
+        })
+            .then(function(savedData) {
+                vm.savedRoles = savedData;
         });
     };
-    function DialogController($scope, $mdDialog) {
-        $scope.closeDialog = function() {
-            $mdDialog.hide();
-        }
+    function DialogController($mdDialog, savedRoles) {
+        var vm = this;
+        vm.selectedRoles = angular.copy(savedRoles);
+
+        vm.closeDialog = function() {
+            $mdDialog.cancel();
+        };
+        vm.save = function(savedData) {
+            $mdDialog.hide(savedData);
+        };
     }
 
 }

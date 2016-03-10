@@ -31,7 +31,6 @@
         </div>
     </div>
     <div id="textDisplay">
-        <div ng-if="roomVm.isGameStart()"></div>
         <div ng-if="roomVm.isMaster() == true">
             <div ng-if="roomVm.hasEnoughPlayers">
                 <md-button id="startGameBtn" class="md-raised md-primary" ng-click="roomVm.gameStarting()">
