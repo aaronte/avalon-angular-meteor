@@ -2,28 +2,28 @@
       <md-dialog-content>
           <div layout="column">
               <div id="checkMerlin">
-                  <md-checkbox ng-model="dialogVm.selectedRoles.Merlin" aria-label="Merlin">
-                      Merlin
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Merlin" ng-change="dialogVm.checkMerlin()" aria-label="Merlin/Assassin">
+                      Merlin/Assassin
                   </md-checkbox>
               </div>
               <div id="checkPercival">
-                  <md-checkbox ng-model="dialogVm.selectedRoles.Percival" aria-label="Percival">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Percival"  ng-change="dialogVm.checkPercival()" aria-label="Percival" ng-disabled="!dialogVm.selectedRoles.Merlin">
                       Percival
                   </md-checkbox>
               </div>
-              <div id="checkAssassin">
-                  <md-checkbox ng-model="dialogVm.selectedRoles.Assassin" aria-label="Assassin">
-                      Assassin
-                  </md-checkbox>
-              </div>
               <div id="checkMorgana">
-                  <md-checkbox ng-model="dialogVm.selectedRoles.Morgana" aria-label="Morgana">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Morgana" ng-change="dialogVm.checkBadRoles()" aria-label="Morgana" ng-disabled="!dialogVm.selectedRoles.Percival || dialogVm.disableMorgana()">
                       Morgana
                   </md-checkbox>
               </div>
               <div id="checkMordred">
-                  <md-checkbox ng-model="dialogVm.selectedRoles.Mordred" aria-label="Mordred">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Mordred" ng-change="dialogVm.checkBadRoles()" aria-label="Mordred" ng-disabled="!dialogVm.selectedRoles.Merlin || dialogVm.disableMordred()">
                       Mordred
+                  </md-checkbox>
+              </div>
+              <div id="checkOberon">
+                  <md-checkbox ng-model="dialogVm.selectedRoles.Oberon" ng-change="dialogVm.checkBadRoles()" aria-label="Oberon" ng-disabled="dialogVm.disableOberon()">
+                      Oberon
                   </md-checkbox>
               </div>
           </div>
