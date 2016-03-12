@@ -57,9 +57,7 @@ function CreateController($mdToast, $reactive, $scope, $state, userService, _) {
             currentUser._id = Users.insert(currentUser);
 
             userService.setModel(currentUser);
-            Session.set('userId',currentUser._id);
-
-            $state.go('room');
+            $state.go('am.room');
             return;
         }
 

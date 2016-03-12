@@ -61,8 +61,7 @@ function JoinController($mdToast, $reactive, $scope, $state, userService, _) {
             currentUser._id = Users.insert(currentUser);
 
             userService.setModel(currentUser);
-            Session.set('userId', currentUser._id);
-            $state.go('room');
+            $state.go('am.room');
 
             vm.form = {roomCode: '', userName: ''};
             return;

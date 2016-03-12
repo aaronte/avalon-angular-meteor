@@ -20,5 +20,6 @@ function userService(_) {
 
     function setModel(newModel) {
         _.assign(model, newModel);
+        Session.setPersistent('userData', model);
     }
 }
