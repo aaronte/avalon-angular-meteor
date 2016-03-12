@@ -17,14 +17,51 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     vm.isMaster = isMaster;
     vm.gameStarting = gameStarting;
     vm.participantIsMaster = participantIsMaster;
+<<<<<<< a34dc4285a8d5cf21c1d42b558b275924e8d1f9a
     vm.participantIsUser = participantIsUser;
+=======
+    vm.savedRoles = {
+/*        Merlin : false,
+        Percival: false,
+        Assassin: false,
+        Morgana: false,
+        Mordred: false,
+        Oberon: false*/
+    };
+
+    var goodToBadPlayerRatios = {
+        5: [3, 2],
+        6: [4, 2],
+        7: [4, 3],
+        8: [5, 3],
+        9: [6, 3],
+        10: [6, 4]
+    };
+
+    var servantsOfArthur = 'Loyal Servants of Arthur';
+    var merlin = 'Merlin';
+    var percival = 'Percival';
+
+    var  minionsOfMordred = 'Minions of Mordred';
+    var assassin = 'Assassin';
+    var mordred = 'Mordred';
+    var morgana = 'Morgana';
+    var oberon = 'Oberon';
+
+>>>>>>> Added role disctribution logic, added user.role in Game.view
 
     vm.helpers({
-        participants: function () {
-            return Users.find({roomId: vm.user.roomId}).fetch();
+        getParticipants: function () {
+            vm.participants = Users.find({roomId: vm.user.roomId}).fetch();
+            vm.numParticipants = vm.participants.length;
+            return vm.participants;
         },
         hasEnoughPlayers: function () {
+<<<<<<< a34dc4285a8d5cf21c1d42b558b275924e8d1f9a
             var numberOfRequiredPlayers = 5;
+=======
+            var numberOfRequiredPlayers = 1;
+>>>>>>> Added role disctribution logic, added user.role in Game.view
             return numberOfRequiredPlayers <= Users.find({roomId: vm.user.roomId}).fetch().length;
         },
         getCode: function () {
@@ -43,7 +80,13 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
             if (_.get(inGame, '[0].gameStarted')) {
                 $state.go('game');
             }
-        }
+        },
+/*        updateSelectedRoles: function () {
+            Rooms.update({_id: vm.user.roomId}, {$set: {'selectedRoles': vm.savedRoles}});
+        },
+        updateNumParticipants: function () {
+            Rooms.update({_id: vm.user.roomId}, {$set: {'participants': vm.participants}});
+        }*/
     });
 
     function isMaster() {
@@ -63,11 +106,50 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     }
 
     function gameStarting() {
+        vm.roomInfo = Rooms.find({_id: vm.user.roomId}).fetch()[0];
+        //var selectedRoles = vm.roomInfo.selectedRoles;
+        var selectedGoodRoles = [];
+        var selectedBadRoles =[];
+        if(vm.savedRoles.Merlin) {
+            selectedGoodRoles.push('merlin');
+        }
+        if(vm.savedRoles.Percival) selectedGoodRoles.push(percival);
+        if(vm.savedRoles.Assassin) {
+            selectedBadRoles.push(assassin);
+        }
+        if(vm.savedRoles.Morgana) selectedBadRoles.push(morgana);
+        if(vm.savedRoles.Mordred) selectedBadRoles.push(mordred);
+        if(vm.savedRoles.Oberon) selectedBadRoles.push(oberon);
+
+        var numGood = goodToBadPlayerRatios[vm.numParticipants][0];
+        var numBad = goodToBadPlayerRatios[vm.numParticipants][1];
+
+        var roles = new Array(vm.numParticipants);
+
+        _.forEach(selectedGoodRoles, function(role, index) {
+            roles[index] = role;
+        });
+        _.fill(roles, servantsOfArthur, selectedGoodRoles.length, numGood);
+
+        _.forEach(selectedBadRoles, function(role, index) {
+            roles[numGood + index] = role;
+        });
+        _.fill(roles, minionsOfMordred, numGood + selectedBadRoles.length, vm.numParticipants);
+
+        var shuffledRoles = _.shuffle(roles);
+
+        _.forEach(
+            _.zip(vm.numParticipants, shuffledRoles),
+            _.spread(
+                function(user, role){
+                    Users.update({ _id: user._id }, { $set: {'role': role} });
+                }
+            )
+        );
         Rooms.update({_id: vm.user.roomId}, {$set: {'gameStarted': true}});
     }
 
-    vm.savedRoles = {};
-    vm.numParticipants = vm.participants.length;
+
     vm.showSettingsDialog = function (ev) {
         $mdDialog.show({
             controller: DialogController,

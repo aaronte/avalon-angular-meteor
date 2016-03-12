@@ -11,6 +11,7 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
+<<<<<<< a34dc4285a8d5cf21c1d42b558b275924e8d1f9a
     </h2>
 
     <md-list>
@@ -39,6 +40,38 @@
                 <div ng-if="!roomVm.hasEnoughPlayers" id="textDisplay1">
                     You need at least 5 players to start the game.
                 </div>
+=======
+        </div>
+    </div>
+
+    <div id="userNameDisplay">
+        Your user name is: {{roomVm.user.userName}}
+    </div>
+    <div id="imgContainer">
+        <img id="userAvatar" ng-src={{roomVm.user.avatar}}>
+    </div>
+
+    <div id="participantsBlock">
+        <div id="participantsDisplay">Number of Participants: ({{roomVm.getParticipants.length}})</div>
+        <div id=peopleDisplay ng-repeat="people in roomVm.getParticipants">
+            <li><p>{{people.userName}} <span ng-if="roomVm.participantIsMaster(people._id) == true"><md-icon md-svg-icon="key" aria-label="key"></md-icon></span></p></li>
+        </div>
+    </div>
+    <div id="textDisplay">
+        <div ng-if="roomVm.isMaster() == true">
+            <div ng-if="roomVm.hasEnoughPlayers">
+                <md-button id="startGameBtn" class="md-raised md-primary" ng-click="roomVm.gameStarting()">
+                    Start Game
+                </md-button>
+            </div>
+            <div ng-if="!roomVm.hasEnoughPlayers" id="textDisplay1">
+                You need at least 5 players to start the game.
+            </div>
+        </div>
+        <div ng-if="!roomVm.isMaster()" id="textDisplay2">
+            <div ng-if="roomVm.hasEnoughPlayers">
+                Waiting for the game leader to start game
+>>>>>>> Added role disctribution logic, added user.role in Game.view
             </div>
             <div ng-if="!roomVm.isMaster()">
                 <div ng-if="roomVm.hasEnoughPlayers">

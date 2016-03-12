@@ -52,7 +52,7 @@ function CreateController($mdToast, $reactive, $scope, $state, userService, _) {
                 }
             }
 
-            var roomId = Rooms.insert({code: code, gameStarted: false, availAvatars: availAvatars});
+            var roomId = Rooms.insert({code: code, gameStarted: false, availAvatars: availAvatars, selectedRoles: null, numParticipants: 1});
             var currentUser = {userName: vm.user.name, roomId: roomId, master: true, avatar: avatarImg};
             currentUser._id = Users.insert(currentUser);
 

@@ -10,18 +10,25 @@ function GameController ($reactive, $scope, userService, $state) {
 
     vm.user = userService.getModel();
     vm.endGame = endGame;
+    vm.userId = Session.get('userId');
 
     vm.helpers({
         isGameEnded: function () {
-            var inGame = Rooms.find({_id:vm.user.roomId}).fetch();
-            if(!inGame[0].gameStarted){
+            vm.roomInfo = Rooms.find({_id: vm.user.roomId}).fetch()[0];
+            if(!vm.roomInfo.gameStarted){
                 $state.go('room');
             }
-            return inGame[0].gameStarted;
+        },
+        getRole: function () {
+            vm.user.role = Users.find({_id: vm.userId}).fetch()[0].role;
+            console.log(vm.user.role);
+            return vm.user.role;
         }
     });
 
     function endGame(){
-        Rooms.update({_id:vm.user.roomId},{$set:{'gameStarted':false}});
+        Rooms.update({_id: vm.user.roomId},{$set: {'gameStarted': false}});
     }
+
+
 }

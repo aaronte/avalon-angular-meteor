@@ -1,6 +1,11 @@
-Game started!
-<div ng-if="gameVm.isGameEnded">
+<div layout="column">
+    <div>Game started!</div>
 
+    <div>You are {{gameVm.getRole}} </div>
+    <div >
+        <div ng-if="gameVm.isMerlin()">If you can see this, you are the Merlin </div>
+        <div ng-if="gameVm.isPercival()">If you can see this, you are the Percival </div>
+    </div>
 </div>
 <md-button class="md-raised" href="/room" ng-click="gameVm.endGame()">
     End Game
