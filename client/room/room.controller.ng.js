@@ -4,9 +4,9 @@ angular
     .module('avalonMeteorApp')
     .controller('RoomController', RoomController);
 
-RoomController.$inject = ['$reactive', '$scope', 'userService', '$state', '$mdDialog'];
+RoomController.$inject = ['$mdDialog', '$reactive', '$scope', '$state', 'userService', '_'];
 
-function RoomController($reactive, $scope, userService, $state, $mdDialog) {
+function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     $reactive(this).attach($scope);
     var vm = this;
 
@@ -17,15 +17,14 @@ function RoomController($reactive, $scope, userService, $state, $mdDialog) {
     vm.isMaster = isMaster;
     vm.gameStarting = gameStarting;
     vm.participantIsMaster = participantIsMaster;
-
-
+    vm.participantIsUser = participantIsUser;
 
     vm.helpers({
         participants: function () {
             return Users.find({roomId: vm.user.roomId}).fetch();
         },
         hasEnoughPlayers: function () {
-            var numberOfRequiredPlayers = 2;
+            var numberOfRequiredPlayers = 5;
             return numberOfRequiredPlayers <= Users.find({roomId: vm.user.roomId}).fetch().length;
         },
         getCode: function () {
@@ -34,14 +33,14 @@ function RoomController($reactive, $scope, userService, $state, $mdDialog) {
         nextMaster: function () {
             var participantsInRoom = Users.find({roomId: vm.user.roomId}).fetch();
             var userId = Session.get('userId');
-            if (userId == participantsInRoom[0]._id) {
+            if (userId == _.get(participantsInRoom[0], '_id')) {
                 vm.user.master = true;
                 Users.update({_id: Session.get('userId')}, {$set: {'master': true}});
             }
         },
         isGameStarted: function () {
             var inGame = Rooms.find({_id: vm.user.roomId}).fetch();
-            if (inGame[0].gameStarted) {
+            if (_.get(inGame, '[0].gameStarted')) {
                 $state.go('game');
             }
         }
@@ -52,11 +51,11 @@ function RoomController($reactive, $scope, userService, $state, $mdDialog) {
     }
 
     function participantIsMaster(participantId) {
-        try {
-            return Users.find({_id: participantId}).fetch()[0].master;
-        }
-        catch(err){
-        }
+        return Users.find({_id: participantId}).fetch()[0].master;
+    }
+
+    function participantIsUser(participantId) {
+        return _.isEqual(participantId, vm.user._id);
     }
 
     function leaveRoom() {
