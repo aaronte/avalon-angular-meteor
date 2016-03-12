@@ -26,7 +26,7 @@ function JoinController($mdToast, $reactive, $scope, $state, userService, _) {
 
         var existingRoom = Rooms.find({code: vm.getReactively('form.roomCode')}).fetch();
         var numParticipants = Users.find({roomId: existingRoom[0]._id}).fetch().length;
-        var isMaxPlayers = numParticipants == 1;
+        var isMaxPlayers = numParticipants == 10;
 
         if (isMaxPlayers) {
             return showToast('The room is full!');
