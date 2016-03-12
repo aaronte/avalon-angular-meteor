@@ -1,26 +1,25 @@
 <div layout="column">
-    <div flex>
-        <md-content>
-            <form ng-submit="joinVm.joinRoom()">
-                <h4 style="margin: 0;">Joining a game...</h4>
-                <md-input-container>
-                    <label>What's the room code?</label>
-                    <input type="text" ng-model="joinVm.form.roomCode" autofocus/>
-                </md-input-container>
+    <md-content class="layout-align-start-center layout-column">
+        <h1 class="md-title">Join a game</h1>
 
-                <md-input-container>
-                    <label>What's your name?</label>
-                    <input type="text" ng-model="joinVm.form.userName" />
-                </md-input-container>
+        <md-input-container>
+            <label>What's the room code?</label>
+            <input type="text" ng-model="joinVm.form.roomCode" autofocus/>
+        </md-input-container>
 
-                <md-button class="md-raised md-primary" ng-click="joinVm.joinRoom()">
-                    Join
-                </md-button>
-            </form>
+        <md-input-container>
+            <label>What's your name?</label>
+            <input type="text" ng-model="joinVm.form.userName" />
+        </md-input-container>
+
+        <div layout="row">
+            <md-button class="md-raised md-primary" ng-click="joinVm.joinRoom()">
+                Join
+            </md-button>
             <div ng-bind="joinVm.error"></div>
             <md-button href="/" class="md-raised">
                 Back
             </md-button>
-        </md-content>
-    </div>
+        </div>
+    </md-content>
 </div>
