@@ -9,7 +9,9 @@ angular
     .config(function($mdIconProvider) {
         $mdIconProvider
             .iconSet('action', 'action.svg', 24)
-            .icon('key', 'key.svg');
+            .icon('key', 'key.svg')
+            .icon('remove', 'remove.svg');
+
     });
 
 onReady = function () {

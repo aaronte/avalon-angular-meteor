@@ -1,4 +1,4 @@
-<md-dialog aria-label="List dialog">
+<md-dialog aria-label="Settings Dialog">
       <md-dialog-content>
           <div layout="column">
               <div id="checkMerlin">
@@ -29,9 +29,11 @@
           </div>
       </md-dialog-content>
       <md-dialog-actions>
-          <md-button ng-click="dialogVm.save(dialogVm.selectedRoles)" class="md-primary">
-              Apply
-          </md-button>
+          <h5 class="dialogMasterOnlyTxt" ng-if="!dialogVm.user.master">Only the Game Master can change these settings!</h5>
+              <md-button ng-click="dialogVm.save(dialogVm.selectedRoles)" ng-if="dialogVm.user.master" class="md-primary">
+                  Apply
+              </md-button>
+
            <md-button ng-click="dialogVm.closeDialog()" class="md-primary">
                  Cancel
                 </md-button>

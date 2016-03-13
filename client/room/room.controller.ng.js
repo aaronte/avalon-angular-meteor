@@ -17,19 +17,16 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     vm.isMaster = isMaster;
     vm.gameStarting = gameStarting;
     vm.participantIsMaster = participantIsMaster;
-<<<<<<< a34dc4285a8d5cf21c1d42b558b275924e8d1f9a
     vm.participantIsUser = participantIsUser;
-=======
+    vm.removeParticipant = removeParticipant;
+
     vm.savedRoles = {
-/*        Merlin : false,
-        Percival: false,
-        Assassin: false,
-        Morgana: false,
-        Mordred: false,
-        Oberon: false*/
+        Merlin: true,
+        Assassin: true
     };
 
     var goodToBadPlayerRatios = {
+        2: [1, 1],
         5: [3, 2],
         6: [4, 2],
         7: [4, 3],
@@ -48,7 +45,6 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     var morgana = 'Morgana';
     var oberon = 'Oberon';
 
->>>>>>> Added role disctribution logic, added user.role in Game.view
 
     vm.helpers({
         getParticipants: function () {
@@ -57,36 +53,31 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
             return vm.participants;
         },
         hasEnoughPlayers: function () {
-<<<<<<< a34dc4285a8d5cf21c1d42b558b275924e8d1f9a
             var numberOfRequiredPlayers = 5;
-=======
-            var numberOfRequiredPlayers = 1;
->>>>>>> Added role disctribution logic, added user.role in Game.view
             return numberOfRequiredPlayers <= Users.find({roomId: vm.user.roomId}).fetch().length;
         },
         getCode: function () {
-            return Rooms.find({_id: vm.user.roomId}).fetch()[0];
+            return Rooms.find({_id: vm.user.roomId}).fetch()[0].code;
         },
         nextMaster: function () {
             var participantsInRoom = Users.find({roomId: vm.user.roomId}).fetch();
-            var userId = Session.get('userId');
-            if (userId == _.get(participantsInRoom[0], '_id')) {
+            if (vm.user._id == _.get(participantsInRoom[0], '_id')) {
                 vm.user.master = true;
-                Users.update({_id: Session.get('userId')}, {$set: {'master': true}});
+                Users.update({_id: vm.user._id}, {$set: {'master': true}});
             }
         },
         isGameStarted: function () {
             var inGame = Rooms.find({_id: vm.user.roomId}).fetch();
             if (_.get(inGame, '[0].gameStarted')) {
-                $state.go('game');
+                $state.go('am.game');
             }
         },
-/*        updateSelectedRoles: function () {
-            Rooms.update({_id: vm.user.roomId}, {$set: {'selectedRoles': vm.savedRoles}});
+        updateRoomSelectedRoles: function () {
+            Rooms.update({_id: vm.user.roomId}, {$set: {selectedRoles: vm.savedRoles}});
         },
-        updateNumParticipants: function () {
-            Rooms.update({_id: vm.user.roomId}, {$set: {'participants': vm.participants}});
-        }*/
+        getRoomSelectedRoles: function () {
+            return Rooms.find({_id: vm.user.roomId}).fetch()[0].selectedRoles;
+        }
     });
 
     function isMaster() {
@@ -94,7 +85,8 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     }
 
     function participantIsMaster(participantId) {
-        return Users.find({_id: participantId}).fetch()[0].master;
+        if(participantId) return Users.find({_id: participantId}).fetch()[0].master;
+
     }
 
     function participantIsUser(participantId) {
@@ -105,18 +97,16 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
         Users.remove({_id: vm.user._id});
     }
 
+    function removeParticipant(participantId) {
+        Users.remove({_id: participantId});
+    }
+
     function gameStarting() {
-        vm.roomInfo = Rooms.find({_id: vm.user.roomId}).fetch()[0];
-        //var selectedRoles = vm.roomInfo.selectedRoles;
         var selectedGoodRoles = [];
         var selectedBadRoles =[];
-        if(vm.savedRoles.Merlin) {
-            selectedGoodRoles.push('merlin');
-        }
+        if(vm.savedRoles.Merlin) selectedGoodRoles.push(merlin);
         if(vm.savedRoles.Percival) selectedGoodRoles.push(percival);
-        if(vm.savedRoles.Assassin) {
-            selectedBadRoles.push(assassin);
-        }
+        if(vm.savedRoles.Assassin) selectedBadRoles.push(assassin);
         if(vm.savedRoles.Morgana) selectedBadRoles.push(morgana);
         if(vm.savedRoles.Mordred) selectedBadRoles.push(mordred);
         if(vm.savedRoles.Oberon) selectedBadRoles.push(oberon);
@@ -139,7 +129,7 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
         var shuffledRoles = _.shuffle(roles);
 
         _.forEach(
-            _.zip(vm.numParticipants, shuffledRoles),
+            _.zip(vm.participants, shuffledRoles),
             _.spread(
                 function(user, role){
                     Users.update({ _id: user._id }, { $set: {'role': role} });
@@ -165,12 +155,14 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
         })
             .then(function(savedData) {
                 vm.savedRoles = savedData;
+                Rooms.update({_id: vm.user.roomId}, {$set: {selectedRoles: vm.savedRoles}});
         });
     };
     function DialogController($mdDialog, savedRoles, numParticipants) {
         var vm = this;
         vm.selectedRoles = angular.copy(savedRoles);
         vm.selectedBadRoles = 0x0;
+        vm.user = userService.getModel();
 
         vm.checkMerlin = function() {
             vm.selectedRoles.Assassin = !vm.selectedRoles.Assassin;
