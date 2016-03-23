@@ -20,10 +20,8 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
     vm.participantIsUser = participantIsUser;
     vm.removeParticipant = removeParticipant;
 
-    vm.savedRoles = {
-        Merlin: true,
-        Assassin: true
-    };
+    vm.savedRoles = Rooms.find({_id: vm.user.roomId}).fetch()[0].firstGame ? { Merlin: true, Assassin: true} : Rooms.find({_id: vm.user.roomId}).fetch()[0].selectedRoles;
+
 
     var goodToBadPlayerRatios = {
         2: [1, 1],
@@ -136,6 +134,7 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
                 }
             )
         );
+        Rooms.update({_id: vm.user.roomId}, {$set: {'firstGame': false}});
         Rooms.update({_id: vm.user.roomId}, {$set: {'gameStarted': true}});
     }
 

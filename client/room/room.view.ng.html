@@ -12,7 +12,7 @@
                 </md-menu-content>
             </md-menu>
     </h2>
-    <span>Special Roles: <span ng-repeat="(role, value) in roomVm.getRoomSelectedRoles">{{ role }} </span></span>
+    <span>Special Roles: <span ng-repeat="(role, value) in roomVm.getRoomSelectedRoles"><span ng-if="value">{{ role }} </span></span></span>
 
     <md-list>
         <md-subheader class="md-no-sticky">
