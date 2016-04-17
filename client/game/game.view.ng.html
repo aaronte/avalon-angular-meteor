@@ -1,13 +1,57 @@
 <div layout="column">
-    <div>Game started!</div>
-
-    <div>You are {{gameVm.getRole}} </div>
-    <div >
-        <div ng-if="gameVm.isMerlin()">Players of Evil: <span ng-repeat="name in gameVm.getEvilUserNames"> {{name}} </span></div>
-        <div ng-if="gameVm.isPercival()">Merlin(s): <span ng-repeat="name in gameVm.getMerlinUserNames"> {{name}} </span> </div>
-        <div ng-if="gameVm.isEvil()">Players of Evil <span ng-repeat="name in gameVm.getEvilUserNames"> {{name}} </span> </div>
+    <div layout="row">
+            <div>
+                <h2 class="md-toolbar-tools">
+                    <span flex ng-bind="'Room #' + gameVm.getCode"></span>
+                </h2>
+            </div>
+            <div>
+                <h2 class="md-toolbar-tools">
+                    <span flex>Special Roles: <span ng-repeat="(role, value) in gameVm.getRoomSelectedRoles"><span ng-if="value">{{ role }} </span></span></span>
+                </h2>
+            </div>
     </div>
+
+    <div layout="row">
+        <span flex></span>
+        <div layout="column">
+            <div class="expandRoleInfo">
+                <div class="border">
+                        <span>
+                            <md-icon ng-if="gameVm.isHidden" md-svg-icon="expandmore" ng-click="gameVm.showRoleInfo()" aria-label="expandmore" class="expandmore"></md-icon>
+                        </span>
+                </div>
+            </div>
+            <div class="roleInfoBox" >
+                <div layout="column" id="infoBox">
+
+                    <div class="role">
+                        <img ng-src="{{gameVm.getRoleBanner()}}" class="roleBanner"/>
+                    </div>
+                    <div class="roleInfo">
+                        <div ng-if="gameVm.isMerlin()">Players of Evil: <span ng-repeat="name in gameVm.getEvilUserNames"> {{name}} </span></div>
+                        <div ng-if="gameVm.isPercival()">Merlin(s): <span ng-repeat="name in gameVm.getMerlinUserNames"> {{name}} </span> </div>
+                        <div ng-if="gameVm.isEvil()">Players of Evil: <span ng-repeat="name in gameVm.getEvilUserNames"> {{name}} </span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="expandRoleInfo">
+                <div class="border" id="borderExpandLess">
+                        <span>
+                            <md-icon ng-if="gameVm.isShown" md-svg-icon="expandless" ng-click="gameVm.hideRoleInfo()" aria-label="expandless" class="expandless"></md-icon>
+                        </span>
+                </div>
+            </div>
+            <div class="endGameBtn">
+                <md-button class="md-raised" href="/room" ng-click="gameVm.endGame()">
+                    End Game
+                </md-button>
+            </div>
+        </div>
+
+        <span flex></span>
+    </div>
+
+
+
 </div>
-<md-button class="md-raised" href="/room" ng-click="gameVm.endGame()">
-    End Game
-</md-button>

@@ -10,7 +10,9 @@ angular
         $mdIconProvider
             .iconSet('action', 'action.svg', 24)
             .icon('key', 'key.svg')
-            .icon('remove', 'remove.svg');
+            .icon('remove', 'remove.svg')
+            .icon('expandmore', 'expandmore.svg')
+            .icon('expandless', 'expandless.svg');
 
     });
 

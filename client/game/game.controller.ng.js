@@ -13,6 +13,11 @@ function GameController ($reactive, $scope, userService, $state) {
     vm.isMerlin = isMerlin;
     vm.isPercival = isPercival;
     vm.isEvil = isEvil;
+    vm.getRoleBanner = getRoleBanner;
+    vm.hideRoleInfo = hideRoleInfo;
+    vm.showRoleInfo = showRoleInfo;
+    vm.isShown = true;
+    vm.isHidden = false;
 
 
     vm.helpers({
@@ -61,6 +66,12 @@ function GameController ($reactive, $scope, userService, $state) {
                 merlinPlayers.push(Users.find({roomId: vm.user.roomId, role: 'Morgana'}).fetch()[0].userName);
             }
             return _.shuffle(merlinPlayers);
+        },
+        getCode: function () {
+            return Rooms.find({_id: vm.user.roomId}).fetch()[0].code;
+        },
+        getRoomSelectedRoles: function () {
+            return Rooms.find({_id: vm.user.roomId}).fetch()[0].selectedRoles;
         }
     });
 
@@ -75,5 +86,28 @@ function GameController ($reactive, $scope, userService, $state) {
     }
     function isEvil () {
         return vm.user.role === 'Minions of Mordred' || vm.user.role === 'Assassin' || vm.user.role === 'Mordred' || vm.user.role === 'Morgana';
+    }
+
+    function getRoleBanner () {
+        return Banners.find({role: vm.user.role}).fetch()[0].imgName;
+    }
+
+    function hideRoleInfo () {
+        var roleInfoBox = document.getElementById("infoBox");
+        var borderExpand = document.getElementById("borderExpandLess");
+        roleInfoBox.style.opacity = "0";
+        borderExpand.style.opacity = "0";
+        vm.isShown = false;
+        vm.isHidden = true;
+
+    }
+
+    function showRoleInfo () {
+        var roleInfoBox = document.getElementById("infoBox");
+        var borderExpand = document.getElementById("borderExpandLess");
+        borderExpand.style.opacity = "1"
+        vm.isShown = true;
+        vm.isHidden = false;
+        roleInfoBox.style.opacity = "1";
     }
 }

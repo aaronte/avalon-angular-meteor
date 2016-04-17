@@ -1,0 +1,58 @@
+.roleInfoBox{
+    left:50%;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.endGameBtn{
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.role{
+    margin: 10px;
+}
+
+.roleBanner{
+    height: 50px;
+    width: auto;
+}
+
+.roleInfo{
+    font-size: 15px;
+}
+
+.expandless {
+    border-radius: 25px;
+    border: 2px solid lightgray;
+    background: white;
+    position: absolute;
+    left: 50%;
+    margin-left: -13px;
+}
+
+.expandmore {
+    border-radius: 25px;
+    border: 2px solid lightgray;
+    background: white;
+    position: absolute;
+    left: 50%;
+    margin-left: -13px;
+}
+
+.border {
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid lightgray;
+    line-height: 70%;
+    left: 50%;
+    margin: 10px 0 10px;
+}
+
+.border span {
+    left:50%
+    background:#fff;
+    padding:0 10px;
+}
