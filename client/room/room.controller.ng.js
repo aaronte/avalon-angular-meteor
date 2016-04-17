@@ -75,6 +75,9 @@ function RoomController($mdDialog, $reactive, $scope, $state, userService, _) {
         },
         getRoomSelectedRoles: function () {
             return Rooms.find({_id: vm.user.roomId}).fetch()[0].selectedRoles;
+        },
+        updateMasterFromDBConsole: function () {
+            vm.user.master = Users.find({_id : vm.user._id}).fetch()[0].master;
         }
     });
 
